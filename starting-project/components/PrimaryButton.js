@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
         borderRadius: 28,
         margin: 4,
         overflow: "hidden"
-
     },
     buttonInnerContainer: {
         backgroundColor: "#72063c",
         paddingVertical: 8,
         paddingHorizontal: 16,
         elevation: 2,
+        width: 150
     },
     buttonText: {
         color: "white",
