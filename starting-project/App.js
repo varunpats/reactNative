@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-import StartGameScreen from './screens/StartGameScreen';
-import GameScreen from './screens/GameScreen';
-import Colors from './constants/colors';
-import GameOverScreen from './screens/GameOverScreen';
 import { useFonts } from "expo-font";
 import AppLoading from 'expo-app-loading';
+import StartGameScreen from './screens/StartGameScreen';
+import GameScreen from './screens/GameScreen';
+import GameOverScreen from './screens/GameOverScreen';
+import Colors from './constants/colors';
 
 export default function App() {
   const [userNumber, setUserNumber] = useState();
   const [gameOver, setGameOver] = useState(true);
+  const [gameRound, setGameRound] = useState(0);
 
   const [fontsLoaded] = useFonts({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -26,8 +27,14 @@ export default function App() {
     setGameOver(false);
   }
 
-  function gameOverHandler() {
+  function gameOverHandler(numberOfRounds) {
     setGameOver(true)
+    setGameRound(numberOfRounds)
+  }
+
+  function startNewGameHandler() {
+    setUserNumber(null);
+    setGameRound(0)
   }
 
   let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
@@ -36,7 +43,7 @@ export default function App() {
     screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />;
 
   if (gameOver && userNumber)
-    screen = <GameOverScreen />
+    screen = <GameOverScreen roundsNumber={userNumber} userNumber={gameRound} onStartNewGame={startNewGameHandler} />
 
   return (
     <LinearGradient colors={[Colors.primary700, Colors.accent500]} style={styles.rootScreen}>
